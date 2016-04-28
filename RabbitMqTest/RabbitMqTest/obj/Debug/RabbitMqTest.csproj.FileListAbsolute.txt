@@ -6,3 +6,11 @@ D:\VSProjects\GitHub_taoworld\RabbitMqTest\RabbitMqTest\RabbitMqTest\bin\Debug\R
 D:\VSProjects\GitHub_taoworld\RabbitMqTest\RabbitMqTest\RabbitMqTest\bin\Debug\RabbitMQ.Client.xml
 D:\VSProjects\GitHub_taoworld\RabbitMqTest\RabbitMqTest\RabbitMqTest\obj\Debug\RabbitMqTest.exe
 D:\VSProjects\GitHub_taoworld\RabbitMqTest\RabbitMqTest\RabbitMqTest\obj\Debug\RabbitMqTest.pdb
+E:\VsProjects\GitHub\RabbitMqTest\RabbitMqTest\RabbitMqTest\bin\Debug\RabbitMqTest.exe.config
+E:\VsProjects\GitHub\RabbitMqTest\RabbitMqTest\RabbitMqTest\obj\Debug\RabbitMqTest.exe
+E:\VsProjects\GitHub\RabbitMqTest\RabbitMqTest\RabbitMqTest\obj\Debug\RabbitMqTest.pdb
+E:\VsProjects\GitHub\RabbitMqTest\RabbitMqTest\RabbitMqTest\bin\Debug\RabbitMqTest.exe
+E:\VsProjects\GitHub\RabbitMqTest\RabbitMqTest\RabbitMqTest\bin\Debug\RabbitMqTest.pdb
+E:\VsProjects\GitHub\RabbitMqTest\RabbitMqTest\RabbitMqTest\bin\Debug\RabbitMQ.Client.dll
+E:\VsProjects\GitHub\RabbitMqTest\RabbitMqTest\RabbitMqTest\bin\Debug\RabbitMQ.Client.xml
+E:\VsProjects\GitHub\RabbitMqTest\RabbitMqTest\RabbitMqTest\obj\Debug\RabbitMqTest.csprojResolveAssemblyReference.cache

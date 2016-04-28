@@ -14,40 +14,56 @@ namespace RabbitMqTest
         public static void Main(string[] args)
         {
             Console.WriteLine("Input message!");
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-            
+            var publishFactory = new ConnectionFactory()
+            {
+                HostName = "localhost",
+                UserName = "tao",
+                Password = "tao",
+                VirtualHost = "myvirtualhost",
+                Port = 5673
+            };
+
+            var consumerFactory = new ConnectionFactory()
+            {
+                HostName = "localhost",
+                UserName = "tao",
+                Password = "tao",
+                VirtualHost = "anothervirtualhost",
+                Port = 5673
+            };
+
             //set specifique user and password
             //user can be create in Web Management pluggin 
             //rabbitmq-plugins enable rabbitmq_management
+            //rabbitmq-plugins enable rabbitmq_shovel_management 
             //http://localhost:15672/
 
             //or add user by commend line : rabbitmqctl add_user {username} {password}
-
-            factory.UserName = "tao";
-            factory.Password = "futao";
-            
-            using (var connection = factory.CreateConnection())
+            using (var publishConnection = publishFactory.CreateConnection())
+            using (var consumerConnection=consumerFactory.CreateConnection())
             {
-                using (var channel = connection.CreateModel())
+                using (var publishChannel = publishConnection.CreateModel())
+                using (var consumerChannel = consumerConnection.CreateModel())
                 {
-                    channel.QueueDeclare(queue: "hello",
-                                         durable: false,
-                                         exclusive: false,
-                                         autoDelete: false,
-                                         arguments: null);
+                //    channel.QueueBind("myqueue", "tao.Test.fanout", "");
+                //    //QueueDeclare(queue: "hello",
+                //    //                      durable: false,
+                //    //                      exclusive: false,
+                //    //                      autoDelete: false,
+                //    //                      arguments: null);
 
-                    var consumer = new EventingBasicConsumer(channel);
+                    var consumer = new EventingBasicConsumer(consumerChannel);
                     consumer.Received += (model, ea) =>
                     {
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
                         Console.WriteLine(" [x] Received {0}", message);
                     };
-                    channel.BasicConsume(queue: "hello",
-                                         noAck: true,
-                                         consumer: consumer);
+                    //consumerChannel.BasicConsume(queue: "anotherqueue",
+                    //                     noAck: true, 
+                    //                     consumer: consumer);
 
-                    var consumerThread = new Thread(() => ConsumerThread(channel, consumer));
+                    var consumerThread = new Thread(() => ConsumerThread(consumerChannel, consumer));
                     consumerThread.Start();
 
                     var inputMessage = "Hello world";
@@ -55,8 +71,8 @@ namespace RabbitMqTest
                     {
                         var body = Encoding.UTF8.GetBytes(inputMessage);
 
-                        channel.BasicPublish(exchange: "",
-                                             routingKey: "hello",
+                        publishChannel.BasicPublish(exchange: "myexchange.fanout",
+                                             routingKey: "",
                                              basicProperties: null,
                                              body: body);
 
@@ -64,6 +80,7 @@ namespace RabbitMqTest
                     }
 
                     consumerThread.Abort();
+
                 }
 
                 Console.Write("Finished!");
@@ -75,7 +92,7 @@ namespace RabbitMqTest
         {
             while (true)
             {
-                channel.BasicConsume(queue: "hello",
+                channel.BasicConsume(queue: "anotherqueue",
                                          noAck: true,
                                          consumer: consumer);
                 Thread.Sleep(1000);
